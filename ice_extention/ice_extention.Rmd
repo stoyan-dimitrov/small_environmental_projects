@@ -1,13 +1,19 @@
+---
+title: "ice_extention"
+author: "stoyan"
+date: "3/20/2020"
+output: html_document
+---
+
+```{r include=FALSE}
 ## load the tidiverse package
 library(tidyverse)
 
 options(digits=12, nsmall=2)
 
 ## set the working directory to the directory where the spreadsheet is so it is easy to open it
-
-setwd("/home/stoyan/r_projects/small_environmental_projects")
-
 ## use "skip" because it has one line with text at the top (I have previously opened the file)
+setwd("/home/stoyan/r_projects/small_environmental_projects")
 
 ice_ext_raw <- read_csv("ice_extention/data/DATAX.csv", skip = 1)
 
@@ -136,36 +142,85 @@ Find_Min_CCF<- function(a,b)
 ### line graph of the yearly average ice extent
 ### line graph of the yearly average ice extent by region
 ### line graph of the yearly average ice extent by region in a log10 scale
+```
 
-## line graph of the yearly average temperature anomaly from 2006 to 2018 by region
+
+# Graphs
+
+## Descriptive
+
+### Line graph of the yearly average temperature anomaly from 2006 to 2018 by region
+
+```{r echo=FALSE}
 t_regions %>% ggplot(aes(year, median, color = entity)) +
   geom_line()
+```
 
-## line graph of the yearly average ice extent of the North Hemisphere
+### Line graph of the yearly average ice extent of the North Hemisphere
+
+```{r echo=FALSE}
 ice_ext_year_avg_nh %>% ggplot(aes(year, avg_ice_ext)) +
   geom_line()
+```
 
-## line graph of the yearly average ice extent by region
+### Line graph of the yearly average ice extent of the seas included in the database
+  
+```{r echo=FALSE}
+ice_ext_year_avg_sea %>%  ggplot(aes(year, avg_ice_ext)) +
+  geom_line()
+```
+  
+
+
+### Line graph of the yearly average ice extent by region
+
+```{r echo=FALSE}
 ice_ext_year_avg_per_sea %>%  ggplot(aes(year, avg_ice_ext, color = region)) +
   geom_line()
+```
 
-## line graph of the yearly average ice extent by region in a log10 scale
+### line graph of the yearly average ice extent by region in a log10 scale
+
+```{r echo=FALSE}
 ice_ext_year_avg_per_sea %>%  ggplot(aes(year, avg_ice_ext, color = region)) +
   geom_line() +
   scale_y_log10()
+```
 
-## cross-correlation of global temperature and northern hemisphere ice extention for the period from 2006 to 2018
+## Inferrential: Cross-correlation
 
+### Cross-correlation plot of global temperature and northern hemisphere ice extention for the period from 2006 to 2018
+
+```{r echo=FALSE}
 ccf(t_glob_ts, ice_ext_year_avg_nh_ts)
+```
 
+### The maximum cross-correlation and the lag at which it occures for global temperature and northern hemisphere ice extention for the period from 2006 to 2018
+
+```{r echo=FALSE}
 Find_Max_CCF(t_glob_ts, ice_ext_year_avg_nh_ts)
+```
 
+### The minimum cross-correlation and the lag at which it occures for global temperature and northern hemisphere ice extention for the period from 2006 to 2018
+
+```{r echo=FALSE}
 Find_Min_CCF(t_glob_ts, ice_ext_year_avg_nh_ts)
+```
 
-## cross-correlation of northern hemisphere temperature and northern hemisphere ice extention for the period from 2006 to 2018
 
+### Cross-correlation plot of northern hemisphere temperature and northern hemisphere ice extention for the period from 2006 to 2018
+```{r echo=FALSE}
 ccf(t_nh_ts, ice_ext_year_avg_nh_ts)
+```
 
+### The maximum cross-correlation and the lag at which it occures for northern hemisphere temperature and northern hemisphere ice extention for the period from 2006 to 2018
+
+```{r echo=FALSE}
 Find_Max_CCF(t_nh_ts, ice_ext_year_avg_nh_ts)
+```
 
+### The minimum cross-correlation and the lag at which it occures for northern hemisphere temperature and northern hemisphere ice extention for the period from 2006 to 2018
+
+```{r echo=FALSE}
 Find_Min_CCF(t_nh_ts, ice_ext_year_avg_nh_ts)
+```
